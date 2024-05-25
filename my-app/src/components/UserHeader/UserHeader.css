@@ -16,12 +16,29 @@
     padding-top: 2rem;
   }
   
-  .editNameContent input {
-    height: 40px;
-    margin-right: 10px;
-    margin-left: 10px;
-    border: 1px solid grey;
+  .editNameContent input { 
+    height: 40px; 
+    margin-right: 10px; 
+    margin-left: 10px; 
+    margin-bottom: 10px; 
   }
+
+  .editNameContent { 
+    display: flex; 
+    flex-direction: 
+    column; 
+    align-items: center; 
+  }
+
+  .editNameInputs  { 
+    width: 205px; 
+    display: flex; 
+    flex-direction: column;
+  }
+
+
+
+
   
   ::placeholder {
     font-size: 15px;

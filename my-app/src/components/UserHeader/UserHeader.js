@@ -3,15 +3,17 @@ import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { updateProfile } from '../../app/actions/actions'
 
+
+
 export default function UserHeader() {
   const dispatch = useDispatch()
-
+ 
   const { userName, firstName, lastName } = useSelector((state) => state.userProfile)
-  const { token } = useSelector((state) => state.userLogin)
-  const { success } = useSelector((state) => state.userLogin)
+  const token = useSelector((state) => state.userLogin.token);
+  const success = useSelector((state) => state.userLogin.success);
 
   const [newUserName, setNewUserName] = useState(userName)
-  const [editButton, setEditButton] = useState(false)
+  const [editButton, setEditButton] = useState(true)
 
   const editNameButton = (e) => {
     e.preventDefault()
@@ -22,7 +24,9 @@ export default function UserHeader() {
     e.preventDefault()
     dispatch(updateProfile(token, newUserName))
     if (success) {
-      setEditButton((current) => !current)
+      setEditButton(false)
+    } else {
+      
     }
   }
 
