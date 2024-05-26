@@ -71,34 +71,33 @@ import {
   
   // User's update profile
   
-  export const updateProfile =
-    (token, newUsername, newLastName) => async (dispatch) => {
-      try {
-        const config = {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        }
+  export const updateProfile = (token, newUsername) => async (dispatch) => {
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      };
   
-        const data = await axios.put(
-          'http://localhost:3001/api/v1/user/profile',
-          { userName: newUsername, },
-          config
-        );
+      const { data } = await axios.put(
+        'http://localhost:3001/api/v1/user/profile',
+        { userName: newUsername },
+        config
+      );
   
-        dispatch({ type: USER_PROFILE_UPDATE, payload: data });
-        return {success:true};
-      } catch (error) {
-        dispatch({
-          type: USER_PROFILE_FAIL,
-          payload:
-            error.response && error.response.data.message
-              ? error.response.data.message
-              : error.message,
-        })
-      }
+      dispatch({ type: USER_PROFILE_UPDATE, payload: data });
+      return { success: true };
+    } catch (error) {
+      dispatch({
+        type: USER_PROFILE_FAIL,
+        payload: error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+      });
+      return { success: false, message: error.message };
     }
+  };
   
   // Logout action
   

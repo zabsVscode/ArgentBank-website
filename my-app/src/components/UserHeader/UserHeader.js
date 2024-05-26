@@ -1,34 +1,31 @@
-import './UserHeader.css'
-import { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { updateProfile } from '../../app/actions/actions'
-
-
+import './UserHeader.css';
+import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateProfile } from '../../app/actions/actions';
 
 export default function UserHeader() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
  
-  const { userName, firstName, lastName } = useSelector((state) => state.userProfile)
+  const { userName, firstName, lastName } = useSelector((state) => state.userProfile);
   const token = useSelector((state) => state.userLogin.token);
-  const success = useSelector((state) => state.userLogin.success);
-
-  const [newUserName, setNewUserName] = useState(userName)
-  const [editButton, setEditButton] = useState(true)
+  const [newUserName, setNewUserName] = useState(userName);
+  const [editButton, setEditButton] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const editNameButton = (e) => {
-    e.preventDefault()
-    setEditButton((current) => !current)
-  }
+    e.preventDefault();
+    setEditButton((current) => !current);
+  };
 
-  const submitHandler = (e) => {
-    e.preventDefault()
-    dispatch(updateProfile(token, newUserName))
-    if (success) {
-      setEditButton(false)
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    const result = await dispatch(updateProfile(token, newUserName));
+    if (result.success) {
+      setEditButton(false);
     } else {
-      
+      setErrorMessage(result.message);
     }
-  }
+  };
 
   return (
     <>
@@ -76,8 +73,9 @@ export default function UserHeader() {
               </button>
             </div>
           </form>
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
         </div>
       )}
     </>
-  )
+  );
 }
